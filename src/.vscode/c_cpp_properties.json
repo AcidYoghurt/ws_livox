@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/ros/humble/include/**",
+                "/usr/include/**",
+                "/opt/ros/humble/include/nav2_costmap_2d",
+                "/opt/ros/humble/include/nav2_msgs",
+                "/opt/ros/humble/include/bond",
+                "/usr/include/eigen3",
+                "/opt/ros/humble/include/visualization_msgs",
+                "/opt/ros/humble/include/sensor_msgs",
+                "/opt/ros/humble/include/nav_2d_msgs"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
