@@ -18,7 +18,6 @@ ament_auto_package(
   launch
   config
   map
-  urdf
   world
   rviz
 )
