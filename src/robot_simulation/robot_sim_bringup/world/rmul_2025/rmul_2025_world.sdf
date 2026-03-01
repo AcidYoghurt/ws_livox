@@ -1,0 +1,48 @@
+<?xml version='1.w0' encoding='utf-8'?>
+<sdf version='1.7'>
+  <world name='default'>
+    <!-- 物理引擎系统 -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics">
+    </plugin>
+
+    <!-- 把仿真状态转发给 GUI -->
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <!-- 支持交互操作（拖动、创建模型） -->
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands">
+    </plugin>
+
+    <!-- 传感器渲染（相机、激光等） -->
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- IMU传感器系统 -->
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
+    </plugin>
+
+    <light type='directional' name='direct_light'>
+      <visualize>false</visualize>
+      <cast_shadows>true</cast_shadows>
+      <pose>7.4 3.6 10 0 0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>0 0 -1</direction>
+    </light>
+
+    <model name='rmul_2025'>
+      <include>
+        <uri>package://robot_sim_bringup/world/rmul_2025</uri>
+      </include>
+      <pose>0.0 0.0 0 0 0 0</pose>
+      <static>true</static>
+    </model>
+  </world>
+</sdf>

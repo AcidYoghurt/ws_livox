@@ -1,1 +1,2 @@
-bash ./src/rm_driver/livox_ros_driver2/build.sh humble
+#!/bin/bash
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON

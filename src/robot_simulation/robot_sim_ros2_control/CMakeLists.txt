@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(robot_description)
+project(robot_sim_ros2_control)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -15,8 +15,7 @@ endif()
 
 ament_auto_package(
         INSTALL_TO_SHARE
-        launch
         config
         urdf
-        ../robot_simulation/robot_sim_bringup/world
+        launch
 )

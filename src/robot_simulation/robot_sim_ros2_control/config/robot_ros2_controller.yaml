@@ -1,0 +1,65 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+    use_sim_time: true
+    robot_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    robot_effort_controller:
+      type: effort_controllers/JointGroupEffortController
+    robot_diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+robot_effort_controller:
+  ros__parameters:
+    joints:
+      - left_wheel_joint
+      - right_wheel_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+      - effort
+
+
+# 差速控制器参数，参考ros2_control网站：https://control.ros.org/jazzy/doc/ros2_controllers/diff_drive_controller/doc/userdoc.html
+robot_diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ["left_wheel_joint"]
+    right_wheel_names: ["right_wheel_joint"]
+
+    wheel_separation: 0.20  # 与URDF中左右轮中心间距一致（y=+0.10/-0.10），否则会导致转向角速度估计偏差。
+    wheel_radius: 0.032     # 车轮半径（即车轮尺寸）用于将线速度转换为车轮转速。如果此参数错误，机器人的移动速度将与预期不符。
+
+    wheel_separation_multiplier: 1.0    # 当实际车轮间距与 wheel_separation 参数中的标称值不同时，需要进行修正。
+    left_wheel_radius_multiplier: 1.0   # 当左侧车轮半径与 wheel_radius 参数中的标称值不同时，需要进行修正。
+    right_wheel_radius_multiplier: 1.0  # 当右侧车轮半径与 wheel_radius 参数中的标称值不同时，需要进行修正。
+
+    publish_rate: 50.0    # 里程计和 TF 消息的发布速率（Hz）
+    odom_frame_id: odom
+    base_frame_id: base_footprint
+    pose_covariance_diagonal : [0.001, 0.001, 0.0, 0.0, 0.0, 0.01]
+    twist_covariance_diagonal: [0.001, 0.0, 0.0, 0.0, 0.0, 0.01]
+
+    open_loop: false                    # 是否设为开环控制
+    enable_odom_tf: true                # 发布 odom_frame_id 和 base_frame_id 之间的转换
+
+    # 通过限幅降低“急刹”导致的滑移：deceleration参数在diff_drive_controller里必须为负值
+    publish_limited_velocity: true
+    linear.x.max_velocity: 0.6
+    linear.x.min_velocity: -0.6
+    linear.x.max_acceleration: 0.8
+    linear.x.max_deceleration: -1.0
+    linear.x.max_acceleration_reverse: -0.8
+    linear.x.max_deceleration_reverse: 1.0
+    angular.z.max_velocity: 1.5
+    angular.z.min_velocity: -1.5
+    angular.z.max_acceleration: 2.0
+    angular.z.max_deceleration: -2.5
+    angular.z.max_acceleration_reverse: -2.0
+    angular.z.max_deceleration_reverse: 2.5
+
+    cmd_vel_timeout: 0.5                # 超时时间（以秒为单位），超过此时间后， cmd_vel 主题上的输入命令将被视为过期。
+    #publish_limited_velocity: true     # 速度限制
+    #use_stamped_vel: false             # 注意，在jazzy及之后的版本，已经无法设置该参数来切换cmd_vel的消息类型
+    velocity_rolling_window_size: 10    # 用于里程计中计算平均速度的滚动窗口大小

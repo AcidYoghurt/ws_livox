@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- 轮子 -->
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
    <xacro:include filename="$(find robot_description)/urdf/robot/common_inertia.xacro" />
     <xacro:macro name="wheel_xacro" params="wheel_name xyz">
         <link name="${wheel_name}_wheel_link">
@@ -39,6 +39,7 @@
             <child link="${wheel_name}_wheel_link" />   <!-- 轮子的转动轴，这里表示绕y轴旋转 -->
             <origin xyz="${xyz}" />
             <axis xyz="0 1 0" />
+            <dynamics damping="0.2" friction="0.02" />
         </joint>
     </xacro:macro>
 </robot>

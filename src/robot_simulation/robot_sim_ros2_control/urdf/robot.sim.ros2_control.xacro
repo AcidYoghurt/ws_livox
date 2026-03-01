@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="robot_sim_ros2_control">
+        <!-- 配置系统，系统就是既包含了传感器，又包含了执行器 -->
+        <ros2_control name="robotGazeboSystem" type="system">
+            <!-- 配置hardware_interface -->
+            <hardware>
+                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+            </hardware>
+
+            <!-- 配置关节(这里的关节是ros2_control中的关节，而不是urdf中的关节) -->
+            <joint name="left_wheel_joint">
+                <command_interface name="velocity">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <command_interface name="effort">
+                    <param name="min">-0.1</param>
+                    <param name="max">0.1</param>
+                </command_interface>
+                <state_interface name="position" />
+                <state_interface name="velocity" />
+                <state_interface name="effort" />
+            </joint>
+
+            <joint name="right_wheel_joint">
+                <command_interface name="velocity">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <command_interface name="effort">
+                    <param name="min">-0.1</param>
+                    <param name="max">0.1</param>
+                </command_interface>
+                <state_interface name="position" />
+                <state_interface name="velocity" />
+                <state_interface name="effort" />
+            </joint>
+        </ros2_control>
+
+        <!-- 加载 Gazebo 插件，该插件能够解析 ros2_control 标签并加载相应的硬件接口和控制器管理器 -->
+        <gazebo>
+            <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+                <parameters>$(find robot_sim_ros2_control)/config/robot_ros2_controller.yaml</parameters>
+                <ros>
+                    <remapping>/robot_diff_drive_controller/cmd_vel:=/cmd_vel</remapping>
+                    <remapping>/robot_diff_drive_controller/odom:=/odom</remapping>
+                </ros>
+            </plugin>
+        </gazebo>
+
+    </xacro:macro>
+</robot>
